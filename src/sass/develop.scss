@@ -52,6 +52,16 @@ input, textarea{
 /*end fonts*/
 
 /*-------------------------------------------------------------------------------------------------------------*/
+body {
+    overflow: hidden;
+}
+.mbox {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+/*-------------------------------------------------------------------------------------------------------------*/
 
 /* preloader */
 $radius: 50%; //-- радиус колец
@@ -69,7 +79,7 @@ $borderColorD: blue; //-- цвет колец - 4
     left: 0;
     width: 100%;
     height: 100%;
-    background: #222;
+    background: #000;
     z-index: 9999;
 }
 .loader {
@@ -181,6 +191,18 @@ $borderColorD: blue; //-- цвет колец - 4
     pointer-events: none;
     text-transform: uppercase;
     font-family: 'AvenirNextCyr-Bold', Arial, sans-serif;
+}
+.invisible {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    transition: opacity .3s;
+}
+.visible {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    transition: opacity .3s;
 }
 /* end basic */
 
@@ -368,59 +390,6 @@ $borderColorD: blue; //-- цвет колец - 4
     &__tel {padding: 7px 15px;}
 }
 /* end header */
-
-.links-group {
-    position: fixed;
-    z-index: 90;
-    bottom: 4vh;
-    left: 40px;
-    &__link {
-        color: #000;
-        text-decoration: none;
-        margin: 0 15px;
-        &:first-child {
-            margin-left: 0;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-        svg {
-            fill: #000;
-        }
-        &:hover {
-            svg {
-                fill: #db4d4e;
-            }
-        }
-    }
-}
-.lang {
-    position: fixed;
-    z-index: 90;
-    bottom: 4vh;
-    right: 40px;
-    &__link {
-        display: inline-block;
-        border: 2px solid transparent;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        font-size: 18px;
-        color: #67686b;
-        line-height: 46px;
-        text-align: center;
-        text-decoration: none;
-        font-family: 'AvenirNextCyr-Demi', Arial, sans-serif;
-        transition: .3s;
-        &:hover {
-            color: #000;
-        }
-    }
-    &__active {
-        border-color: #000;
-        color: #000;
-    }
-}
 .main-page {
     height: 100vh;
     width: 100%;
@@ -458,7 +427,7 @@ $borderColorD: blue; //-- цвет колец - 4
 }
 .scroll__firstscreen img {
     position: relative;
-    left: 1px;
+    left: 0;
 }
 .arrow-bounce {
     animation: arrow 1s infinite;
@@ -508,9 +477,9 @@ $borderColorD: blue; //-- цвет колец - 4
 
 /* about us */
 .lateral {
-    position: absolute;
-    left: -16.25vw;
-    top: 24.58vh;
+    position: fixed;
+    left: 2.76vw;
+    top: 24vh;
     font-family: 'AvenirNextCyr-Demi', Arial, sans-serif;
     &__logo {
         width: 175px;
@@ -662,101 +631,6 @@ $borderColorD: blue; //-- цвет колец - 4
         font-family: 'AvenirNextCyr-Demi', Arial, sans-serif;
     }
 }
-
-.main-persons {
-    font-size: 1rem;
-    position: relative;
-    background-color: #fff;
-    color: #000;
-    overflow: hidden;
-    padding-bottom: 22.7vh; //17.7
-    &__box {
-        margin: 0 4.16vw 0;
-        overflow: hidden;
-    }
-    &__name {
-        margin-bottom: 6vh
-    }
-    &__bg {left: 0;}
-    &__slider {
-        padding: 0;
-        margin: 0;
-        .slick-list {
-            //overflow: visible;
-            //overflow-x: hidden;
-            overflow: visible;
-        }
-    }
-    &__slider-img {
-        position: relative;
-        z-index: 0;
-        bottom: -260px;
-        &:before {
-            content: '';
-            bottom: 0;
-            z-index: 100;
-            position: absolute;
-            display: block;
-            height: 70%;
-            width: 100%;
-            background: url("../images/bg-main-persons-slider3.jpg") no-repeat;
-            background-size: contain;
-        }
-    }
-    &__slider-text {
-        position: relative;
-        z-index: 1;
-        background: #fff;
-    }
-}
-.main-person-text {
-    opacity: 0;
-}
-.main-person {
-    margin: 0 auto;
-    max-width: 226px;
-    color: #000;
-    &__img-box {
-        position: relative;
-        height: 398px;
-    }
-    &__img {
-        position: absolute;
-        top: 0;
-        transition: .3s;
-        &:hover {
-            z-index: 1000;
-            top: -150px;
-        }
-    }
-    &__name {
-        font-size: 32px;
-        margin: 25px 0 8px;
-        line-height: 1.25em;
-        font-family: 'AvenirNextCyr-Bold', Arial, sans-serif;
-        position: relative;
-        display: inline-block;
-        &:before {
-            display: block;
-            position: absolute;
-            z-index: -1;
-            top: -25px;
-            left: -15px;
-            content: '';
-            border-top: 26px solid #d50000;
-            border-radius: 50px;
-            opacity: 0.7;
-            width: 80%;
-        }
-    }
-    &__desc {
-        font-size: 18px;
-        margin: 0;
-        line-height: 1.3em;
-        font-family: 'AvenirNextCyr-Light', Arial, sans-serif;
-    }
-}
-
 .mission {
      font-size: 1rem;
      position: relative;
@@ -1157,6 +1031,12 @@ $borderColorD: blue; //-- цвет колец - 4
         color: #e35454;
         margin-top: 35px;
     }
+    &__name-box {
+        text-decoration: none;
+        color: #000;
+        transition: .3s;
+        &:hover {color: #e35454;}
+    }
     &__name {
         margin: 18px 0;
         font-size: 21px;
@@ -1398,6 +1278,61 @@ $borderColorD: blue; //-- цвет колец - 4
 /* end subscribe-box */
 
 /* contacts */
+.fifth-section {
+    position: relative;
+}
+.links-group {
+    position: absolute;
+    z-index: 90;
+    bottom: 4vh;
+    left: calc(40px - 19vw);
+    &__link {
+        color: #000;
+        text-decoration: none;
+        margin: 0 15px;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        svg {
+            fill: #000;
+        }
+        &:hover {
+            svg {
+                fill: #db4d4e;
+            }
+        }
+    }
+}
+.lang {
+    position: absolute;
+    z-index: 90;
+    bottom: 4vh;
+    right: 40px;
+    &__link {
+        display: inline-block;
+        border: 2px solid transparent;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 18px;
+        color: #67686b;
+        line-height: 46px;
+        text-align: center;
+        text-decoration: none;
+        font-family: 'AvenirNextCyr-Demi', Arial, sans-serif;
+        transition: .3s;
+        &:hover {
+            color: #000;
+        }
+    }
+    &__active {
+        border-color: #000;
+        color: #000;
+    }
+}
 .contacts {
     display: flex;
     height: 100vh;
@@ -1461,9 +1396,8 @@ $borderColorD: blue; //-- цвет колец - 4
     z-index: 100;
     width: 616px;
     left: 20px;
-    //top: 50vh;
-    //transform: translate(0,-50%);
     bottom: 16vh;
+    font-family: 'AvenirNextCyr-Light', Arial, sans-serif;
     &__row {
         display: flex;
         justify-content: space-between;
@@ -1474,7 +1408,6 @@ $borderColorD: blue; //-- цвет колец - 4
     &__submit {
         background: #fff;
         margin-top: 35px;
-        //border-color: #db4d4e;
     }
     &__input {
         font-size: 16px;
@@ -1486,9 +1419,7 @@ $borderColorD: blue; //-- цвет колец - 4
         padding: 10px 5px;
         outline: 0;
         color: #000;
-        &::placeholder {
-            color: #c2c6d0;
-        }
+        &::placeholder {color: #000;}
     }
     &__textarea {
         height: 100px;

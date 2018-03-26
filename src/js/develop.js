@@ -19,13 +19,11 @@ $(window).on('load', function() {
         })();
     },700);
 });
-
 $('.u-nav').on('click', function(){
     $(this).toggleClass('is-open');
     $('.u-nav-container').toggleClass('is-open');
 });
 $(document).ready(function(){
-
     $('.js-key-persons').slick({
         dots: true,
         infinite: true,
@@ -35,74 +33,6 @@ $(document).ready(function(){
         responsive: [
             {
                 breakpoint: 1601,
-                settings: {
-                    slidesToShow: 4
-                }
-            },
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 3
-                }
-            },
-            {
-                breakpoint: 1020,
-                settings: {
-                    slidesToShow: 2
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
-    $('.js-main-persons').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        asNavFor: '.js-main-persons-text',
-        responsive: [
-            {
-                breakpoint: 1681,
-                settings: {
-                    slidesToShow: 4
-                }
-            },
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 3
-                }
-            },
-            {
-                breakpoint: 1020,
-                settings: {
-                    slidesToShow: 2
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
-    $('.js-main-persons-text').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        asNavFor: '.js-main-persons',
-        responsive: [
-            {
-                breakpoint: 1681,
                 settings: {
                     slidesToShow: 4
                 }
@@ -148,14 +78,13 @@ $(document).ready(function(){
             });
         }
     })();
-
 });
 //scroll to #href
 $(document).on("click", ".js-scroll-to", function(e){
     e.preventDefault();
     var id = $(this).attr('href'),
     top = $(id).offset().top;
-    $('body,html').animate({scrollTop: top}, 700);
+    $('.mbox').animate({scrollTop: top}, 700); //$('body, html').animate({scrollTop: top}, 700);
 });
 //scroll down
 $(document).on("click", "#scroll", function(e){
@@ -165,6 +94,75 @@ $(document).on("click", "#scroll", function(e){
     }, 700);
     return false;
 });
+$(document).on("mousewheel", ".main-page", function(e){
+    if ( e.originalEvent.wheelDelta < -100 ) {
+        var destination = $(window).height();
+        jQuery("html:not(:animated),body:not(:animated)").animate({
+            scrollTop: destination
+        }, 700);
+        return false;
+    }
+});
+$(document).on("mousewheel", "body", function(e) {
+    (function(){
+        var windowHeight = $(window).height();
+        if ( $(window).scrollTop() >= windowHeight ) {
+            $('.header__tel').addClass('invisible');
+            $('.lateral').removeClass('invisible');
+        } else  {
+            $('.header__tel').removeClass('invisible');
+            $('.lateral').addClass('invisible');
+        }
+    })();
+});
+(function(){
+    // get target element
+    var about = document.querySelector('.about');
+    var portfolio = document.querySelector('.portfolio');
+    var blog = document.querySelector('.blog');
+    // get
+    var lateralAbout = document.querySelector('.lateral-about');
+    var lateralPortfolio = document.querySelector('.lateral-portfolio');
+    var lateralBlog = document.querySelector('.lateral-blog');
+
+    var Visible = function (target, list) {
+            // all positions element
+        var targetPosition = {
+                top: window.pageYOffset + target.getBoundingClientRect().top,
+                left: window.pageXOffset + target.getBoundingClientRect().left,
+                right: window.pageXOffset + target.getBoundingClientRect().right,
+                bottom: window.pageYOffset + target.getBoundingClientRect().bottom
+            },
+            // positions window
+            windowPosition = {
+                top: window.pageYOffset,
+                left: window.pageXOffset,
+                right: window.pageXOffset + document.documentElement.clientWidth,
+                bottom: window.pageYOffset + document.documentElement.clientHeight
+            };
+        if (targetPosition.bottom > windowPosition.bottom && targetPosition.top < windowPosition.bottom) {
+            // Если элемент полностью видно, то запускаем следующий код
+            console.clear();
+            console.log('Вы видите элемент :)');
+            list.classList.remove('invisible');
+        } else {
+            // Если элемент не видно, то запускаем этот код
+            list.classList.add('invisible');
+            console.clear();
+        };
+    };
+    // Запускаем функцию при прокрутке страницы
+    var scrollElement = document.querySelector('.mbox'); //просто тут сколиться не body, a .mbox
+    scrollElement.addEventListener('scroll', function() {
+        Visible (about, lateralAbout);
+        Visible (portfolio, lateralPortfolio);
+        Visible (blog, lateralBlog);
+    });
+    // А также запустим функцию сразу. А то вдруг, элемент изначально видно
+    Visible (about, lateralAbout);
+    Visible (portfolio, lateralPortfolio);
+    Visible (blog, lateralBlog);
+})();
 
 
 $(document).on("click", ".js-scroll-anchor", function(e){
