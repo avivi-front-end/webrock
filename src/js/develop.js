@@ -87,6 +87,7 @@ $(document).on("click", ".js-scroll-to", function(e){
     $('.mbox').animate({scrollTop: top}, 700); //$('body, html').animate({scrollTop: top}, 700);
 });
 //scroll down
+/* було так
 $(document).on("click", "#scroll", function(e){
     var destination = $(window).height();
     jQuery("html:not(:animated),body:not(:animated)").animate({
@@ -94,27 +95,110 @@ $(document).on("click", "#scroll", function(e){
     }, 700);
     return false;
 });
-$(document).on("mousewheel", ".main-page", function(e){
-    if ( e.originalEvent.wheelDelta < -100 ) {
-        var destination = $(window).height();
+*/
+$(document).on("click", "#scroll", function(e){
+    var destination = $(window).height();
+    if ( destination == $('.main').height() ) {
+        $('.main').animate({
+            scrollTop: destination
+        }, 700);
+        return false;
+    } else {
         jQuery("html:not(:animated),body:not(:animated)").animate({
             scrollTop: destination
         }, 700);
         return false;
     }
 });
-$(document).on("mousewheel", "body", function(e) {
-    (function(){
-        var windowHeight = $(window).height();
-        if ( $(window).scrollTop() >= windowHeight ) {
-            $('.header__tel').addClass('invisible');
-            $('.lateral').removeClass('invisible');
-        } else  {
-            $('.header__tel').removeClass('invisible');
-            $('.lateral').addClass('invisible');
+// функції скролу першої сторінки для десктопів
+$('.main-page').on('mousewheel DOMMouseScroll', function(e) {
+    var destination = $(window).height();
+    var E = e.originalEvent;
+    var delta = 0;
+    // scroll event firefox
+    if (E.detail) {
+        delta = E.detail * -40; // -3 * -40 = 120
+        if ( destination === $('.main').height() ) {
+            if ( delta < -100 ) {
+                $('.main').animate({
+                    scrollTop: destination
+                }, 700);
+                return false;
+            }
+        } else { // for mobile or tablet
+            if ( delta < -100 ) {
+                jQuery("html:not(:animated),body:not(:animated)").animate({
+                    scrollTop: destination
+                }, 700);
+                return false;
+            }
         }
-    })();
+    }
+    // scroll event other browsers
+    else {
+        delta = E.wheelDelta; // 120
+        if ( destination === $('.main').height() ) {
+            if ( delta < -100 ) {
+                $('.main').animate({
+                    scrollTop: destination
+                }, 700);
+                return false;
+            }
+        } else { // for mobile or tablet
+            if ( delta < -100 ) {
+                jQuery("html:not(:animated),body:not(:animated)").animate({
+                    scrollTop: destination
+                }, 700);
+                return false;
+            }
+        }
+    }
 });
+// функції скролу першої сторінки для мобілок і планшетів
+(function(){
+    var $mainPage = $('.main-page');
+    var $document = $(document);
+    var $body = jQuery("html:not(:animated),body:not(:animated)");
+    var $main = $('.main');
+
+    var destination = $(window).height();
+    var lastY;
+    // if ($('.tablet').length > 0 || $('.mobile').length > 0) {
+    //     $(document).on('touchmove', function (e){
+    //         var currentY = e.originalEvent.touches[0].clientY;
+    //         if(currentY < lastY && $(this).scrollTop() < destination){
+    //             console.log('moved up');
+    //             jQuery("html:not(:animated),body:not(:animated)").animate({
+    //                 scrollTop: destination
+    //             }, 700);
+    //         } else if(currentY > lastY){
+    //             console.log('moved down');
+    //         }
+    //         lastY = currentY;
+    //     });
+    // }
+    function scrollFirstScreen (target, scrollElem) {
+        $(target).on('touchmove', function (e){
+            var currentY = e.originalEvent.touches[0].clientY;
+            if(currentY < lastY && $(this).scrollTop() < destination){
+                console.log('moved up');
+                scrollElem.animate({  //------------------- jQuery("html:not(:animated),body:not(:animated)")
+                    scrollTop: destination
+                }, 700);
+            } else if(currentY > lastY){
+                console.log('moved down');
+            }
+            lastY = currentY;
+        });
+    }
+    if ($(window).width() < 920) {
+        scrollFirstScreen($document, $body);
+    }
+    else if ($('.tablet').length > 0 && $(window).width() > 920) {
+        scrollFirstScreen ($mainPage, $main);
+    }
+})();
+// розрахунок положення елементу відносно екрану
 (function(){
     // get target element
     var about = document.querySelector('.about');
@@ -163,15 +247,67 @@ $(document).on("mousewheel", "body", function(e) {
     Visible (portfolio, lateralPortfolio);
     Visible (blog, lateralBlog);
 })();
+// функа для обмеження глобальних змінних
+(function(){
+    // скорочений аналог двох функцій, які закоменчені в 'функції скролу'
+    var $main = $('.main');
+    var $document = $(document);
+    function scrollInvisible (target) {
+        var windowHeight = $(window).height();
+        if ( $(target).scrollTop() >= windowHeight ) {
+            $('.header__tel').addClass('invisible');
+            $('.header__btn').addClass('invisible');
+            $('.js-lateral').removeClass('invisible');
+        } else  {
+            $('.header__tel').removeClass('invisible');
+            $('.header__btn').removeClass('invisible');
+            $('.js-lateral').addClass('invisible');
+        }
+    }
 
+// функції скролу
+    $(document).on("mousewheel DOMMouseScroll", function(e) {
+        /*(function(){
+            if ( $('.main').scrollTop() >= windowHeight ) {
+                $('.header__tel').addClass('invisible');
+                $('.header__btn').addClass('invisible');
+                $('.js-lateral').removeClass('invisible');
+            } else  {
+                $('.header__tel').removeClass('invisible');
+                $('.header__btn').removeClass('invisible');
+                $('.js-lateral').addClass('invisible');
+            }
+        })();
 
-$(document).on("click", ".js-scroll-anchor", function(e){
-    e.preventDefault();
-    $(this).find('.anchors__box').toggleClass('active');
-    $(this).toggleClass('active');
-});
-
-
+        (function(){
+            if ($(window).width() < 920) {
+                if ( $(document).scrollTop() >= windowHeight ) {
+                    $('.header__tel').addClass('invisible');
+                    $('.header__btn').addClass('invisible');
+                } else  {
+                    $('.header__tel').removeClass('invisible');
+                    $('.header__btn').removeClass('invisible');
+                    $('.js-lateral').addClass('invisible');
+                }
+            }
+        })();
+        */
+        // для десктопів по скролу ширина екрану яких більша за 920пх
+        if ($(window).width() > 920 && $('.tablet').length <= 0){
+            scrollInvisible ($main);
+        }
+    });
+    $(document).on('touchmove', function (e){
+        // для планшетів та телефонів ширина екрану яких менша за 920пх, по touchmove
+        if ($(window).width() < 920) {
+            scrollInvisible ($document);
+        }
+        // для планшетів ширина екрану яких більша за 920пх, по touchmove
+        else if ($('.tablet').length > 0 && $(window).width() > 920) {
+            scrollInvisible ($main);
+        }
+    });
+})();
 // $('.main-persons').on("mouseenter", ".main-person", function(e){
 //     $('.main-person-text').css('opacity','1');
 // });
@@ -182,7 +318,6 @@ $(document).on("click", ".js-scroll-anchor", function(e){
 //         $('.main-person').addClass("main-person-text");
 //     }
 // });
-
 
 function initMap() {
     var markerPosition = {lat: 49.426269, lng: 26.989378};//{lat: 49.426269, lng: 26.989378}

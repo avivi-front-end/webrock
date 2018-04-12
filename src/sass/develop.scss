@@ -52,6 +52,29 @@ input, textarea{
 /*end fonts*/
 
 /*-------------------------------------------------------------------------------------------------------------*/
+
+body {
+    overflow: hidden;
+    height: 100vh;
+}
+.global-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+.main {
+    width: calc(100% + 17px);//100%
+    height: 100vh; //200vh
+    overflow-y: scroll; //-
+}
+.mbox {
+    overflow-y: scroll;
+    height: 100vh;
+    width: calc(100vw - 19vw);
+    box-sizing: content-box;
+}
+
+
+/* було так
 body {
     overflow: hidden;
 }
@@ -60,7 +83,7 @@ body {
     height: 100vh;
     overflow-y: scroll;
 }
-
+*/
 /*-------------------------------------------------------------------------------------------------------------*/
 
 /* preloader */
@@ -1662,6 +1685,9 @@ $borderColorD: blue; //-- цвет колец - 4
     .main-persons__name {
         margin-bottom: -60px;
     }
+    .lateral__link-group {
+        margin-top: 80px;
+    }
     .our-partners__link {
         width: 33%;
     }
@@ -1711,6 +1737,7 @@ $borderColorD: blue; //-- цвет колец - 4
     .form-contacts {
         padding: 30px;
         width: 540px;
+        bottom: 12vh;
     }
     /* portfolio-view.html */
     .subscribe-text__name {font-size: 66px;}
@@ -1832,9 +1859,23 @@ $borderColorD: blue; //-- цвет колец - 4
     }
     /* end blog-view.html */
 }
-//ipad pro
+// ipad pro landscape
+@media screen and (height: 1024px) and (width: 1366px) {
+    .ipad {
+        .mbox {width: calc(100vw - 18vw);}
+        .about {background: #fff;}
+        .portfolio {background: #fff;}
+        .blog {background: #fff;}
+    }
+}
+// end ipad pro landscape
+//ipad pro portrait
 @media screen and (max-width: 1024px) and (height: 1366px) {
     .ipad {
+        .mbox {width: calc(100vw - 18vw);}
+        .about {background: #fff;}
+        .portfolio {background: #fff;}
+        .blog {background: #fff;}
         .write-text {font-size: 62px;}
         .logo {margin: 4vh auto 17vh;}
         .u-nav-container {width: 430px;}
@@ -1872,6 +1913,10 @@ $borderColorD: blue; //-- цвет колец - 4
 }
 //end ipad pro
 @media screen and (max-width: 1024px) {
+    .mbox {width: calc(100vw - 18vw);}
+    .about {background: #fff;}
+    .portfolio {background: #fff;}
+    .blog {background: #fff;}
     .u-nav {
         top: 25px;
         left: 25px;
@@ -1912,6 +1957,27 @@ $borderColorD: blue; //-- цвет колец - 4
     /* end blog-view.html */
 }
 @media screen and (max-width: 920px) {
+    body {
+        overflow-y: scroll;
+        height: auto;
+    }
+    .global-wrapper {
+        overflow: auto;
+    }
+    .main {
+        width: 100%;//100% calc(100% + 17px)
+        height: auto; //200vh 100vh
+        overflow: auto; // scroll
+    }
+    .mbox {
+        overflow: hidden;// scroll
+        height: auto; //100vh
+        width: 100%; //calc(100vw - 19vw)
+        box-sizing: border-box;// content-box
+        padding-left: 0;
+    }
+    .about {overflow: hidden;}
+    .lateral {display: none;}
     .nav {padding: 20px;}
     .write-text {
         font-size: 46px;
@@ -1956,6 +2022,7 @@ $borderColorD: blue; //-- цвет колец - 4
             bottom: -262px;
         }
     }
+    .mission-item {margin: 20px 1vw 0;}
     .mission__name {margin-bottom: 70px;}
     .mission__box {padding: 0 3.44vw 80px 4.16vw;}
     .values__name {margin-bottom: 80px;}
@@ -1982,7 +2049,14 @@ $borderColorD: blue; //-- цвет колец - 4
         padding-right: 20px;
     }
     .blog__content {padding-right: 0;}
-    .mbox:last-child {padding-left: 0;}
+    .links-group__link svg {
+        fill: #fff; // #67686b
+    }
+    .lang__active {
+        border-color: #fff;
+        color: #fff;
+    }
+    //.mbox:last-child {padding-left: 0;}
     /* blog-view.html */
     .blog-view__subscribe {margin-top: 61px;}
     /* end blog-view.html */
@@ -2013,10 +2087,13 @@ $borderColorD: blue; //-- цвет колец - 4
         }
     }
     .mbox {
-        padding: 0 15px;
+        //padding: 0 15px;
         background: #fff;
+        //width: calc(100vw - 30px);
     }
-    .lateral {display: none;}
+    .write-text {
+        font-size: 42px;
+    }
     .team {
         margin-left: -15px;
         margin-right: -15px;
@@ -2031,6 +2108,7 @@ $borderColorD: blue; //-- цвет колец - 4
             max-width: 90vw;
         }
     }
+    .our-partners__link {text-align: center;}
     .our-partners__box {padding: 0;}
     .portfolio__box {width: 590px;}
     .gallery {
@@ -2055,7 +2133,6 @@ $borderColorD: blue; //-- цвет колец - 4
         &__title-name {margin-top: 100px;}
     }
     .maps-box {display: none;}
-    .mbox:last-child {padding: 0;}
     /* blog-view.html */
     .blog-view {
         padding: 50px 15px;
@@ -2078,9 +2155,15 @@ $borderColorD: blue; //-- цвет колец - 4
     /* end blog-view.html */
 }
 @media screen and (max-width: 640px) {
+    .m-padding {
+        padding: 0 15px;
+    }
     .portfolio__box {width: auto;}
 }
 @media screen and (max-width: 600px) {
+    .main-page {
+        padding: 15.625vh 5vw;
+    }
     .u-nav {
         top: 15px;
         left: 15px;
@@ -2197,6 +2280,7 @@ $borderColorD: blue; //-- цвет колец - 4
     /* end blog-view.html */
 }
 @media screen and (max-width: 375px) {
+    .main-page {padding: 15.625vh 8vw;}
     .menu__item {padding: 10px 0;}
     .nav__top {height: 50px;}
     .write-text {
